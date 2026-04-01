@@ -260,7 +260,7 @@ html,body{background:#050C06!important;color:#F0F7F1;margin:0;padding:0;font-fam
 </head>
 <body>
 <div id="intro-overlay">
-  <video id="intro-video" src="intro.mp4" autoplay muted playsinline webkit-playsinline></video>
+  <video id="intro-video" src="intro.mp4" autoplay playsinline webkit-playsinline></video>
   <button id="sound-btn" onclick="toggleSound()">🔇</button>
 </div>
 
@@ -663,7 +663,17 @@ function copyLink(){
     o.classList.add('fade-out');
     setTimeout(function(){ o.style.display='none'; }, 600);
   });
-  v.play().catch(function(){});
+  v.play().catch(function(){
+    // 소리 있는 자동재생 차단 시 → 탭하면 소리와 함께 재생
+    v.muted = true;
+    v.play();
+    document.getElementById('sound-btn').textContent = '🔇';
+    o.addEventListener('click', function unmute(){
+      v.muted = false;
+      document.getElementById('sound-btn').textContent = '🔊';
+      o.removeEventListener('click', unmute);
+    }, {once: true});
+  });
 })();
 
 function toggleSound(){
