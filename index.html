@@ -292,13 +292,17 @@ html,body{background:#050C06!important;color:#F0F7F1;margin:0;padding:0;font-fam
 #intro-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:20px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);line-height:1;}
 #sound-indicator{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.7);font-size:26px;pointer-events:none;transition:opacity .3s;}
 #sound-indicator.hide{opacity:0;}
+#intro-spinner{position:absolute;width:48px;height:48px;border:3px solid rgba(255,255,255,.15);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}
+#intro-spinner.hide{display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
 <div id="intro-overlay" onclick="toggleSound()">
   <video id="intro-video" src="intro.mp4?v=1775033257" autoplay playsinline webkit-playsinline></video>
+  <div id="intro-spinner"></div>
   <button id="intro-close" onclick="closeIntro(event)">✕</button>
-  <div id="sound-indicator">🔊</div>
+  <div id="sound-indicator" class="hide">🔊</div>
 </div>
 
 <div class="flash" id="flash"></div>
@@ -854,7 +858,10 @@ function copyLink(){
 (function(){
   var v = document.getElementById('intro-video');
   var o = document.getElementById('intro-overlay');
+  var sp = document.getElementById('intro-spinner');
   if(!v||!o) return;
+  v.addEventListener('playing', function(){ if(sp) sp.classList.add('hide'); });
+  v.addEventListener('waiting', function(){ if(sp) sp.classList.remove('hide'); });
   v.addEventListener('ended', function(){ closeIntro(); });
   v.play().catch(function(){
     v.muted = true;
