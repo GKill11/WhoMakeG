@@ -252,7 +252,7 @@ html,body{background:#050C06!important;color:#F0F7F1;margin:0;padding:0;font-fam
 
 /* 인트로 비디오 오버레이 */
 #intro-overlay{position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;}
-#intro-overlay video{width:100%;height:100%;object-fit:cover;display:block;}
+#intro-overlay video{width:100%;height:100%;object-fit:contain;display:block;}
 #intro-overlay.fade-out{animation:introFade .6s ease forwards;}
 @keyframes introFade{to{opacity:0;pointer-events:none;}}
 #sound-btn{position:absolute;bottom:24px;right:24px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:22px;width:48px;height:48px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
